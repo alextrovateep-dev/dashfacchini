@@ -91,6 +91,7 @@ header {
 .card { background:var(--card-blue); border:1px solid var(--border); border-radius:12px; overflow:hidden; cursor:pointer; transition:all .25s; }
 .card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 24px rgba(89,117,76,0.14); }
 .card.sector { background:var(--card-green); }
+@keyframes cardPulse { 0%,100%{box-shadow:0 0 0 0 rgba(204,17,51,.4)} 50%{box-shadow:0 0 0 8px rgba(204,17,51,0)} }
 .card.machine { background:#f5f8f3; }
 .card-header { padding:11px 15px 10px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .card-name { font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -374,7 +375,6 @@ table.stop-table { width:100%; border-collapse:collapse; min-width:720px; }
       <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#1a9e5c"></div>Produzindo</div>
       <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#cc1133"></div>Parada</div>
       <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#e05a00"></div>Setup/Prog.</div>
-      <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#9ba8b8"></div>Sem Comunicação</div>
     </div>
     <div class="gantt-wrap">
       <div class="gantt-timeline">
@@ -557,7 +557,7 @@ function metaSection(metaHora,sc=1){
 // ══ GANTT ══
 function genGanttSegs(mStatus){
   const totalMins=Math.round(getFilterHours()*60);
-  const seqs={running:['running','stopped','running','setup','running','stopped','running'],stopped:['stopped','running','stopped','running'],setup:['setup','running','stopped','running','setup'],offline:['offline']};
+  const seqs={running:['running','stopped','running','setup','running','stopped','running'],stopped:['stopped','running','stopped','running'],setup:['setup','running','stopped','running','setup']};
   const seq=seqs[mStatus]||seqs.running;
   const segs=[]; let cursor=0,idx=0;
   while(cursor<totalMins){
@@ -820,7 +820,7 @@ const DATA={
   },
   machines:{
     PRH111A:{name:'PRENSA HIDRÁULICA 01',status:'running',oee:77,perf:98,disp:80,qual:99,metaHora:12},
-    PRH111B:{name:'PRENSA HIDRÁULICA 02',status:'offline',oee:0,perf:0,disp:0,qual:0,metaHora:12},
+    PRH111B:{name:'PRENSA HIDRÁULICA 02',status:'stopped',oee:0,perf:0,disp:0,qual:0,metaHora:12},
     PRH243: {name:'PRENSA HIDRÁULICA 03',status:'stopped',oee:0,perf:66,disp:0,qual:100,metaHora:10},
     PRH243B:{name:'PRENSA HIDRÁULICA 04',status:'stopped',oee:0,perf:0,disp:0,qual:0,metaHora:10},
     PRH275: {name:'ROBÔ 11',status:'running',oee:62,perf:80,disp:74,qual:100,metaHora:8},
@@ -930,14 +930,27 @@ function renderSectorCard(sid){
 function renderMachineCard(mid){
   const m=DATA.machines[mid];
   const k=genKPI(.25);
-  const statusMap={running:{cls:'status-running',lbl:'● Executando'},stopped:{cls:'status-stopped',lbl:'■ Parado'},setup:{cls:'status-setup',lbl:'◐ Setup/Prog.'},offline:{cls:'status-offline',lbl:'○ Sem Comunicação'}};
+  const statusMap={
+    running:{lbl:'▶ EXECUTANDO',hbg:'#1a9e5c',border:'#1a9e5c',bg:'rgba(26,158,92,0.05)'},
+    stopped:{lbl:'■ PARADO',hbg:'#cc1133',border:'#cc1133',bg:'rgba(204,17,51,0.07)'},
+    setup:{lbl:'◐ SETUP',hbg:'#c47d00',border:'#c47d00',bg:'rgba(196,125,0,0.07)'},
+    offline:{lbl:'⛔ OFFLINE',hbg:'#2d3748',border:'#2d3748',bg:'rgba(45,55,72,0.08)'}
+  };
   const st=statusMap[m.status]||statusMap.offline;
   const oee=m.status==='offline'?0:m.oee;
-  return`<div class="card machine" onclick="drillMachine('${mid}')">
-    <div class="card-header">
-      <div style="display:flex;flex-direction:column;gap:3px;overflow:hidden"><span class="machine-code">[${mid}]</span><span class="card-name" style="font-size:12px">${m.name}</span></div>
-      <span class="status-badge ${st.cls}">${st.lbl}</span>
+  const pulse=m.status==='stopped'?'animation:cardPulse 1.2s ease-in-out infinite;':'';
+  const reasonBar=m.simReason
+    ?`<div style="padding:10px 15px;font-size:13px;font-weight:700;background:${st.hbg};color:#fff;display:flex;align-items:center;gap:8px;border-bottom:2px solid rgba(0,0,0,.15)">${m.status==='stopped'?'🔴':'🟡'} ${m.simReason}</div>`
+    :'';
+  return`<div class="card machine" style="border:2px solid ${st.border};background:${st.bg};${pulse}" onclick="drillMachine('${mid}')">
+    <div style="background:${st.hbg};padding:11px 15px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+      <div style="display:flex;flex-direction:column;gap:2px;overflow:hidden">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,.75)">[${mid}]</span>
+        <span style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.name}</span>
+      </div>
+      <span style="font-size:11px;font-weight:800;color:#fff;letter-spacing:1px;white-space:nowrap">${st.lbl}</span>
     </div>
+    ${reasonBar}
     <div class="oee-panel">
       <div class="turno-label">─── Turno ───</div>
       <div class="oee-row">
@@ -989,11 +1002,50 @@ function refresh(){
   document.getElementById('lastUpdate').textContent=`Atualizado: ${new Date().toLocaleTimeString('pt-BR')}`;
 }
 
+// ══ MACHINE SIMULATION ══
+const SIM_STOP_REASONS=['Falha mecânica','Quebra de ferramenta','Falta de material','Aguardando ordem','Operador ausente','Reparo hidráulico','Inspeção de qualidade','Esteira cheia'];
+const SIM_SETUP_REASONS=['Troca de molde','Setup CNC','Troca de lote','Calibração','Ajuste de matriz'];
+
+function simTick(){
+  const mids=Object.keys(DATA.machines);
+  const count=rnd(2,4);
+  const chosen=[];
+  const used=new Set();
+  while(chosen.length<count&&chosen.length<mids.length){
+    const id=mids[rnd(0,mids.length-1)];
+    if(!used.has(id)){used.add(id);chosen.push(id);}
+  }
+  chosen.forEach(mid=>{
+    const m=DATA.machines[mid];
+    if(m.status==='running'){
+      // 60% parada, 40% setup
+      if(Math.random()<0.6){
+        m.status='stopped';
+        m.simReason=SIM_STOP_REASONS[rnd(0,SIM_STOP_REASONS.length-1)];
+        m.oee=0; m.disp=0; m.perf=rnd(40,70); m.qual=rnd(90,100);
+      } else {
+        m.status='setup';
+        m.simReason=SIM_SETUP_REASONS[rnd(0,SIM_SETUP_REASONS.length-1)];
+        m.oee=rnd(20,50); m.disp=rnd(30,60); m.perf=rnd(50,75); m.qual=rnd(90,100);
+      }
+    } else {
+      // volta a executar
+      m.status='running';
+      m.simReason=null;
+      m.oee=rnd(55,92); m.disp=rnd(60,95); m.perf=rnd(80,115); m.qual=rnd(94,100);
+    }
+  });
+  if(currentLevel===3) renderMachines();
+  // agenda próximo tick entre 1 e 2 minutos
+  setTimeout(simTick, rnd(60000,120000));
+}
+
 // ── INIT ──
 setInterval(()=>document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR'),1000);
 document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR');
 renderUnits();
 setInterval(refresh,30000);
+setTimeout(simTick, rnd(60000,120000));
 </script>
 </body>
 </html>
