@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TeepOEE – Gestão à Vista</title>
+<title>TeepOEE – Gestão à Vist |</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -11,7 +11,10 @@
   --panel: #ffffff;
   --panel2: #f8fafc;
   --border: #dde3ec;
-  --accent: #0066cc;
+  --accent: #59754c;
+  --accent-dark: #3d5233;
+  --accent-light: #7a9e6a;
+  --accent-bg: rgba(89,117,76,0.07);
   --text: #1a2433;
   --muted: #6b7a90;
   --green: #1a9e5c;
@@ -19,71 +22,83 @@
   --red: #cc1133;
   --orange: #e05a00;
   --card-blue: #ffffff;
-  --card-green: #f0faf4;
+  --card-green: #f4f8f1;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:var(--bg); color:var(--text); font-family:'Exo 2',sans-serif; min-height:100vh; overflow-x:hidden; }
 
+/* ══ HEADER ══ */
 header {
-  background:var(--panel); border-bottom:1px solid var(--border);
-  padding:0 24px; height:60px; display:flex; align-items:center;
+  background:var(--panel); border-bottom:2px solid var(--accent);
+  padding:0 20px; height:64px; display:flex; align-items:center;
   justify-content:space-between; position:sticky; top:0; z-index:200;
-  box-shadow:0 2px 12px rgba(0,0,0,0.08);
+  box-shadow:0 2px 16px rgba(89,117,76,0.12);
+  gap:12px;
 }
-.logo { display:flex; align-items:center; gap:12px; }
-.logo-mark { width:36px; height:36px; background:linear-gradient(135deg,#0066cc,#0044aa); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px; color:#fff; }
-.logo-text { font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700; color:var(--accent); letter-spacing:2px; }
-.logo-sub { font-size:10px; color:var(--muted); letter-spacing:3px; text-transform:uppercase; margin-top:-2px; }
-.header-center { display:flex; align-items:center; gap:8px; background:rgba(0,102,204,0.05); border:1px solid var(--border); border-radius:8px; padding:4px 8px; }
-.filter-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-.filter-btn { background:transparent; border:1px solid var(--border); color:var(--muted); padding:5px 12px; border-radius:6px; font-family:'Exo 2',sans-serif; font-size:12px; cursor:pointer; transition:all .2s; }
+.header-left { display:flex; align-items:center; gap:16px; }
+.logo-teep img { height:36px; display:block; }
+.logo-divider { width:1px; height:32px; background:var(--border); }
+.header-title { display:flex; flex-direction:column; }
+.header-title-main { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--accent); letter-spacing:2px; line-height:1; }
+.header-title-sub { font-size:9px; color:var(--muted); letter-spacing:3px; text-transform:uppercase; margin-top:2px; }
+
+.header-center { display:flex; align-items:center; gap:6px; background:var(--accent-bg); border:1px solid rgba(89,117,76,0.2); border-radius:8px; padding:5px 10px; flex-wrap:wrap; justify-content:center; }
+.filter-label { font-size:10px; color:var(--accent); text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+.filter-btn { background:transparent; border:1px solid rgba(89,117,76,0.25); color:var(--muted); padding:4px 10px; border-radius:6px; font-family:'Exo 2',sans-serif; font-size:11px; cursor:pointer; transition:all .2s; white-space:nowrap; }
 .filter-btn:hover { border-color:var(--accent); color:var(--accent); }
 .filter-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:700; }
-.header-right { display:flex; align-items:center; gap:16px; }
-.live-indicator { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--green); font-family:'Share Tech Mono',monospace; }
+.filter-btn.special { background:rgba(89,117,76,0.1); border-color:var(--accent); color:var(--accent); font-weight:600; }
+.filter-btn.special.active { background:var(--accent-dark); color:#fff; }
+
+.header-right { display:flex; align-items:center; gap:14px; }
+.logo-facchini { display:flex; align-items:center; }
+.logo-facchini img { height:16px; display:block; object-fit:contain; }
+.facchini-fallback { font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; color:#1a2433; letter-spacing:1px; border:2px solid #1a2433; padding:2px 10px; border-radius:4px; }
+.live-indicator { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--green); font-family:'Share Tech Mono',monospace; }
 .live-dot { width:8px; height:8px; background:var(--green); border-radius:50%; animation:pulse 1.5s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
-.clock { font-family:'Share Tech Mono',monospace; font-size:18px; color:var(--accent); letter-spacing:2px; }
+.clock { font-family:'Share Tech Mono',monospace; font-size:17px; color:var(--accent); letter-spacing:2px; }
 .update-info { font-size:10px; color:var(--muted); font-family:'Share Tech Mono',monospace; }
 
-.breadcrumb { padding:10px 24px; display:flex; align-items:center; gap:8px; font-size:13px; border-bottom:1px solid var(--border); background:#eef2f7; flex-wrap:wrap; }
-.bc-item { color:var(--muted); cursor:pointer; transition:color .2s; display:flex; align-items:center; gap:6px; }
+/* ══ BREADCRUMB ══ */
+.breadcrumb { padding:9px 24px; display:flex; align-items:center; gap:8px; font-size:13px; border-bottom:1px solid var(--border); background:#eef2f7; flex-wrap:wrap; }
+.bc-item { color:var(--muted); cursor:pointer; transition:color .2s; display:flex; align-items:center; gap:5px; }
 .bc-item:hover { color:var(--accent); }
 .bc-item.active { color:var(--text); font-weight:600; }
 .bc-sep { color:#bbc5d4; font-size:16px; }
 
-.summary-bar { display:flex; gap:12px; padding:10px 24px; background:var(--panel); border-bottom:1px solid var(--border); overflow-x:auto; }
-.summary-item { display:flex; flex-direction:column; align-items:center; min-width:88px; padding:8px 12px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; }
-.summary-val { font-family:'Share Tech Mono',monospace; font-size:17px; font-weight:700; }
+/* ══ SUMMARY BAR ══ */
+.summary-bar { display:flex; gap:10px; padding:10px 24px; background:var(--panel); border-bottom:1px solid var(--border); overflow-x:auto; }
+.summary-item { display:flex; flex-direction:column; align-items:center; min-width:86px; padding:7px 12px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; }
+.summary-val { font-family:'Share Tech Mono',monospace; font-size:16px; font-weight:700; }
 .summary-lbl { font-size:9px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-top:2px; white-space:nowrap; }
 
+/* ══ VIEWS ══ */
 .view { display:none; animation:fadeIn .3s ease; }
 .view.active { display:block; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
-.level-header { padding:20px 24px 12px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-.level-title { font-family:'Rajdhani',sans-serif; font-size:28px; font-weight:700; color:var(--text); }
-.level-count { font-size:13px; color:var(--muted); font-family:'Share Tech Mono',monospace; }
-
-.grid { padding:0 24px 24px; display:grid; gap:16px; }
+.level-header { padding:18px 24px 12px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.level-title { font-family:'Rajdhani',sans-serif; font-size:26px; font-weight:700; color:var(--text); }
+.level-count { font-size:12px; color:var(--muted); font-family:'Share Tech Mono',monospace; }
+.grid { padding:0 24px 24px; display:grid; gap:14px; }
 .grid-units { grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); }
 .grid-sectors { grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); }
 .grid-machines { grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); }
+.back-btn { display:inline-flex; align-items:center; gap:6px; background:var(--accent-bg); border:1px solid rgba(89,117,76,0.25); color:var(--accent); padding:7px 16px; border-radius:8px; font-size:13px; cursor:pointer; transition:all .2s; margin:14px 24px 0; font-family:'Exo 2',sans-serif; font-weight:600; }
+.back-btn:hover { background:rgba(89,117,76,0.14); }
 
-.back-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(0,102,204,0.07); border:1px solid rgba(0,102,204,0.2); color:var(--accent); padding:7px 16px; border-radius:8px; font-size:13px; cursor:pointer; transition:all .2s; margin:16px 24px 0; font-family:'Exo 2',sans-serif; font-weight:600; }
-.back-btn:hover { background:rgba(0,102,204,0.14); }
-
-/* CARDS */
+/* ══ CARDS ══ */
 .card { background:var(--card-blue); border:1px solid var(--border); border-radius:12px; overflow:hidden; cursor:pointer; transition:all .25s; }
-.card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,102,204,0.12); }
+.card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 24px rgba(89,117,76,0.14); }
 .card.sector { background:var(--card-green); }
-.card.machine { background:#f5f8ff; }
-.card-header { padding:12px 16px 10px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.card.machine { background:#f5f8f3; }
+.card-header { padding:11px 15px 10px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .card-name { font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.card-badge { background:rgba(0,102,204,0.08); border:1px solid rgba(0,102,204,0.2); color:var(--accent); font-size:10px; font-family:'Share Tech Mono',monospace; padding:2px 7px; border-radius:4px; white-space:nowrap; }
+.card-badge { background:var(--accent-bg); border:1px solid rgba(89,117,76,0.2); color:var(--accent); font-size:10px; font-family:'Share Tech Mono',monospace; padding:2px 7px; border-radius:4px; white-space:nowrap; }
 .machine-code { font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--orange); background:rgba(224,90,0,0.08); padding:2px 6px; border-radius:3px; border:1px solid rgba(224,90,0,0.2); }
 
-.oee-panel { padding:10px 14px; border-bottom:1px solid var(--border); background:#f4f7fb; }
+/* OEE */
+.oee-panel { padding:10px 14px; border-bottom:1px solid var(--border); background:#f4f7f2; }
 .turno-label { font-size:9px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:6px; }
 .oee-row { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
 .oee-item { border-radius:5px; padding:5px 8px; display:flex; align-items:center; justify-content:space-between; }
@@ -102,11 +117,11 @@ header {
 .mini-bar-track { height:4px; background:rgba(0,0,0,.08); border-radius:2px; overflow:hidden; }
 .mini-bar-fill { height:100%; border-radius:2px; }
 
-/* META SECTION */
+/* META */
 .meta-section { padding:10px 14px; border-bottom:1px solid var(--border); background:#fff; }
 .meta-section-title { font-size:9px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:8px; }
-.meta-cols { display:grid; grid-template-columns:1fr 1px 1fr 1px 1fr; gap:0; margin-bottom:8px; }
-.meta-col { text-align:center; padding:0 8px; }
+.meta-cols { display:grid; grid-template-columns:1fr 1px 1fr 1px 1fr; margin-bottom:8px; }
+.meta-col { text-align:center; padding:0 6px; }
 .meta-col-label { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
 .meta-col-val { font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700; }
 .meta-col-sub { font-size:9px; color:var(--muted); margin-top:1px; }
@@ -120,8 +135,8 @@ header {
 .meta-badge.warn { background:rgba(224,90,0,.1); color:var(--orange); }
 .meta-badge.bad { background:rgba(204,17,51,.1); color:var(--red); }
 
-/* KPI TABLE */
-.kpi-table { padding:10px 16px; }
+/* KPI */
+.kpi-table { padding:10px 14px; }
 .kpi-row { display:flex; justify-content:space-between; align-items:center; padding:3px 0; border-bottom:1px solid rgba(180,195,215,.4); }
 .kpi-row:last-child { border-bottom:none; }
 .kpi-label { font-size:12px; color:var(--muted); }
@@ -131,47 +146,56 @@ header {
 .kpi-val.blue { color:var(--accent); }
 .kpi-val.warn { color:var(--orange); }
 
+/* STATUS */
 .status-badge { display:inline-flex; align-items:center; gap:5px; font-size:10px; padding:3px 10px; border-radius:4px; font-weight:600; white-space:nowrap; }
 .status-running { background:rgba(26,158,92,.1); color:#157a46; border:1px solid rgba(26,158,92,.3); }
 .status-stopped { background:rgba(204,17,51,.1); color:var(--red); border:1px solid rgba(204,17,51,.3); }
 .status-setup { background:rgba(224,90,0,.1); color:var(--orange); border:1px solid rgba(224,90,0,.3); }
 .status-offline { background:rgba(100,116,139,.1); color:var(--muted); border:1px solid var(--border); }
 
-::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar { width:5px; height:5px; }
 ::-webkit-scrollbar-track { background:var(--bg); }
-::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+::-webkit-scrollbar-thumb { background:rgba(89,117,76,0.3); border-radius:3px; }
 
 /* ══ MACHINE DETAIL ══ */
-.detail-kpi-strip { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; padding:20px 24px; background:var(--panel); border-bottom:1px solid var(--border); }
-.dkpi { background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; }
+.detail-kpi-strip { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; padding:18px 24px; background:var(--panel); border-bottom:1px solid var(--border); }
+.dkpi { background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:13px 15px; }
 .dkpi-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
-.dkpi-val { font-family:'Rajdhani',sans-serif; font-size:28px; font-weight:700; line-height:1; }
+.dkpi-val { font-family:'Rajdhani',sans-serif; font-size:26px; font-weight:700; line-height:1; }
 .dkpi-sub { font-size:11px; color:var(--muted); margin-top:4px; font-family:'Share Tech Mono',monospace; }
 
-.meta-detail-strip { background:var(--panel); border-bottom:1px solid var(--border); padding:16px 24px; }
-.meta-detail-inner { background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:16px 20px; }
-.meta-detail-title { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
+/* OPERATOR CARD */
+.operator-strip { padding:14px 24px; background:var(--panel); border-bottom:1px solid var(--border); }
+.operator-strip-title { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; font-weight:600; }
+.operator-cards { display:flex; gap:12px; flex-wrap:wrap; }
+.op-card { display:flex; align-items:center; gap:10px; background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:10px 16px; min-width:200px; }
+.op-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-light)); display:flex; align-items:center; justify-content:center; font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; color:#fff; flex-shrink:0; }
+.op-info { }
+.op-name { font-weight:700; font-size:14px; color:var(--text); }
+.op-detail { font-size:11px; color:var(--muted); font-family:'Share Tech Mono',monospace; margin-top:2px; }
+.op-period { display:inline-block; font-size:10px; background:var(--accent-bg); color:var(--accent); padding:1px 8px; border-radius:10px; margin-top:3px; font-weight:600; }
+
+/* META DETAIL */
+.meta-detail-strip { background:var(--panel); border-bottom:1px solid var(--border); padding:14px 24px; }
+.meta-detail-inner { background:var(--panel2); border:1px solid rgba(89,117,76,0.2); border-radius:10px; padding:15px 20px; border-left:4px solid var(--accent); }
+.meta-detail-title { font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; font-weight:700; }
 .meta-detail-row { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
 .meta-big-block { text-align:center; }
-.meta-big { font-family:'Rajdhani',sans-serif; font-size:36px; font-weight:700; line-height:1; }
+.meta-big { font-family:'Rajdhani',sans-serif; font-size:34px; font-weight:700; line-height:1; }
 .meta-big-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
 .meta-detail-bar-wrap { flex:1; min-width:200px; }
 .meta-detail-bar-track { height:12px; background:rgba(0,0,0,.08); border-radius:6px; overflow:hidden; margin:6px 0; }
 .meta-detail-bar-fill { height:100%; border-radius:6px; }
-.meta-detail-notes { font-size:11px; color:var(--muted); font-family:'Share Tech Mono',monospace; }
 
 /* GANTT */
-.section-block { padding:20px 24px; }
-.section-block + .section-block { padding-top:4px; }
-.section-title { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.section-block { padding:18px 24px; }
+.section-title { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; color:var(--text); }
 .section-subtitle { font-size:11px; font-family:'Exo 2',sans-serif; font-weight:400; color:var(--muted); }
-
 .gantt-legend { display:flex; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
 .gantt-legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--muted); }
 .gantt-legend-dot { width:12px; height:12px; border-radius:3px; }
-
 .gantt-wrap { background:var(--panel); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-.gantt-timeline { position:relative; padding:14px 16px 30px; }
+.gantt-timeline { position:relative; padding:14px 16px 28px; }
 .gantt-track { position:relative; height:36px; background:rgba(0,0,0,.04); border-radius:5px; overflow:hidden; }
 .gantt-seg { position:absolute; top:0; height:100%; border-radius:4px; cursor:pointer; transition:filter .15s, transform .1s; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; overflow:hidden; white-space:nowrap; }
 .gantt-seg:hover { filter:brightness(1.1); transform:scaleY(1.08); z-index:10; }
@@ -179,7 +203,7 @@ header {
 .gantt-seg.stopped { background:#cc1133; }
 .gantt-seg.setup { background:#e05a00; }
 .gantt-seg.offline { background:#9ba8b8; }
-.gantt-axis { position:absolute; bottom:6px; left:16px; right:16px; display:flex; justify-content:space-between; font-size:9px; color:var(--muted); font-family:'Share Tech Mono',monospace; }
+.gantt-axis { position:absolute; bottom:4px; left:16px; right:16px; display:flex; justify-content:space-between; font-size:9px; color:var(--muted); font-family:'Share Tech Mono',monospace; }
 
 /* TOOLTIP */
 .gantt-tooltip { position:fixed; background:#1e2d42; color:#fff; padding:12px 16px; border-radius:10px; font-size:12px; pointer-events:none; z-index:9999; min-width:210px; box-shadow:0 8px 32px rgba(0,0,0,.25); display:none; }
@@ -191,34 +215,34 @@ header {
 
 /* STOP TABLE */
 .stop-table-wrap { background:var(--panel); border:1px solid var(--border); border-radius:10px; overflow:hidden; overflow-x:auto; }
-table.stop-table { width:100%; border-collapse:collapse; min-width:700px; }
-.stop-table th { background:#f4f7fb; padding:10px 14px; text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:600; border-bottom:1px solid var(--border); white-space:nowrap; }
-.stop-table td { padding:10px 14px; font-size:13px; border-bottom:1px solid rgba(221,227,236,.5); vertical-align:middle; }
+table.stop-table { width:100%; border-collapse:collapse; min-width:720px; }
+.stop-table th { background:#f2f5f0; padding:10px 13px; text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--accent); font-weight:600; border-bottom:1px solid var(--border); white-space:nowrap; }
+.stop-table td { padding:10px 13px; font-size:13px; border-bottom:1px solid rgba(221,227,236,.5); vertical-align:middle; }
 .stop-table tr:last-child td { border-bottom:none; }
-.stop-table tr:hover td { background:rgba(0,102,204,.025); }
+.stop-table tr:hover td { background:rgba(89,117,76,.025); }
 .stype { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; white-space:nowrap; }
 .stype-maint { background:rgba(204,17,51,.1); color:var(--red); }
 .stype-setup { background:rgba(224,90,0,.1); color:var(--orange); }
 .stype-op { background:rgba(196,125,0,.1); color:var(--yellow); }
-.stype-qual { background:rgba(0,102,204,.1); color:var(--accent); }
+.stype-qual { background:rgba(0,102,204,.1); color:#0066cc; }
 .stop-dur { font-family:'Share Tech Mono',monospace; color:var(--red); font-weight:700; }
 .stop-loss { font-family:'Share Tech Mono',monospace; font-weight:700; color:var(--red); }
-.detail-btn { background:rgba(0,102,204,.08); border:1px solid rgba(0,102,204,.2); color:var(--accent); padding:4px 12px; border-radius:6px; cursor:pointer; font-size:11px; font-family:'Exo 2',sans-serif; font-weight:600; white-space:nowrap; }
-.detail-btn:hover { background:rgba(0,102,204,.15); }
+.detail-btn { background:var(--accent-bg); border:1px solid rgba(89,117,76,.25); color:var(--accent); padding:4px 12px; border-radius:6px; cursor:pointer; font-size:11px; font-family:'Exo 2',sans-serif; font-weight:600; white-space:nowrap; }
+.detail-btn:hover { background:rgba(89,117,76,.15); }
 
 /* MODAL */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:500; display:none; align-items:center; justify-content:center; padding:16px; }
 .modal-overlay.open { display:flex; }
-.modal { background:var(--panel); border-radius:16px; padding:28px 32px; width:100%; max-width:520px; box-shadow:0 20px 60px rgba(0,0,0,.2); position:relative; animation:mIn .22s ease; }
+.modal { background:var(--panel); border-radius:16px; padding:26px 30px; width:100%; max-width:520px; box-shadow:0 20px 60px rgba(0,0,0,.2); position:relative; animation:mIn .22s ease; border-top:3px solid var(--accent); }
 @keyframes mIn { from{transform:scale(.94);opacity:0} to{transform:scale(1);opacity:1} }
-.modal-close { position:absolute; top:16px; right:16px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:4px 12px; cursor:pointer; font-size:18px; color:var(--muted); }
+.modal-close { position:absolute; top:14px; right:14px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:4px 12px; cursor:pointer; font-size:18px; color:var(--muted); }
 .modal-close:hover { color:var(--red); border-color:var(--red); }
 .modal-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; margin-bottom:4px; }
-.modal-sub { font-size:12px; color:var(--muted); margin-bottom:20px; font-family:'Share Tech Mono',monospace; }
-.modal-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
-.mfield { background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; }
-.mfield-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
-.mfield-val { font-family:'Share Tech Mono',monospace; font-size:14px; font-weight:700; }
+.modal-sub { font-size:12px; color:var(--muted); margin-bottom:18px; font-family:'Share Tech Mono',monospace; }
+.modal-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px; }
+.mfield { background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:11px 13px; }
+.mfield-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:3px; }
+.mfield-val { font-family:'Share Tech Mono',monospace; font-size:13px; font-weight:700; }
 .mfield-val.red { color:var(--red); }
 .mfield-val.orange { color:var(--orange); }
 .mfield-val.green { color:var(--green); }
@@ -226,27 +250,49 @@ table.stop-table { width:100%; border-collapse:collapse; min-width:700px; }
 .mbtn { padding:9px 22px; border-radius:8px; font-family:'Exo 2',sans-serif; font-size:13px; font-weight:600; cursor:pointer; }
 .mbtn.primary { background:var(--accent); color:#fff; border:none; }
 .mbtn.secondary { background:transparent; color:var(--muted); border:1px solid var(--border); }
+
+/* SHIFT BADGE */
+.shift-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(89,117,76,0.1); border:1px solid rgba(89,117,76,0.25); color:var(--accent); font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-mark">T</div>
-    <div>
-      <div class="logo-text">TeepOEE</div>
-      <div class="logo-sub">Gestão à Vista</div>
+  <div class="header-left">
+    <!-- TEEP LOGO -->
+    <div class="logo-teep">
+      <img src="https://teep.com.br/wp-content/uploads/2023/11/cropped-cropped-teep-logo-menor-113x33.png"
+           alt="Teep" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--accent);letter-spacing:2px">TEEP</div>
+    </div>
+    <div class="logo-divider"></div>
+    <div class="header-title">
+      <div class="header-title-main">TeepOEE</div>
+      <div class="header-title-sub">Gestão à Vista</div>
     </div>
   </div>
+
+  <!-- FILTER -->
   <div class="header-center">
     <span class="filter-label">Filtro:</span>
+    <button class="filter-btn special active" onclick="setFilter('shift',this)" title="Apenas o turno atual">⏱ Turno Atual</button>
     <button class="filter-btn" onclick="setFilter(1,this)">1h</button>
-    <button class="filter-btn active" onclick="setFilter(2,this)">2h</button>
+    <button class="filter-btn" onclick="setFilter(2,this)">2h</button>
     <button class="filter-btn" onclick="setFilter(4,this)">4h</button>
     <button class="filter-btn" onclick="setFilter(8,this)">8h</button>
     <button class="filter-btn" onclick="setFilter(12,this)">12h</button>
+    <button class="filter-btn" onclick="setFilter(24,this)">24h</button>
   </div>
+
   <div class="header-right">
+    <!-- FACCHINI LOGO -->
+    <div class="logo-facchini">
+      <img src="https://www.facchini.com.br/2018/imgs/logo_facchini.png"
+           alt="Facchini"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="facchini-fallback" style="display:none">FACCHINI</div>
+    </div>
+    <div style="width:1px;height:28px;background:var(--border)"></div>
     <div class="update-info" id="lastUpdate">Atualizado: --:--:--</div>
     <div class="live-indicator"><div class="live-dot"></div>AO VIVO</div>
     <div class="clock" id="clock">--:--:--</div>
@@ -260,11 +306,12 @@ table.stop-table { width:100%; border-collapse:collapse; min-width:700px; }
 <div class="summary-bar" id="summaryBar">
   <div class="summary-item"><div class="summary-val green" id="s-tp">--:--</div><div class="summary-lbl">T. Produção</div></div>
   <div class="summary-item"><div class="summary-val red" id="s-tpar">--:--</div><div class="summary-lbl">T. Paradas</div></div>
-  <div class="summary-item"><div class="summary-val blue" id="s-ops" style="color:var(--accent)">---</div><div class="summary-lbl">Ops Apontadas</div></div>
+  <div class="summary-item"><div class="summary-val" id="s-ops" style="color:var(--accent)">---</div><div class="summary-lbl">Ops Apontadas</div></div>
   <div class="summary-item"><div class="summary-val" id="s-itens">-----</div><div class="summary-lbl">Total Itens</div></div>
   <div class="summary-item"><div class="summary-val" id="s-ref" style="color:var(--orange)">--</div><div class="summary-lbl">Refugos</div></div>
   <div class="summary-item"><div class="summary-val" id="s-meta" style="color:var(--accent)">-----</div><div class="summary-lbl">Meta Período</div></div>
   <div class="summary-item"><div class="summary-val" id="s-deficit">-----</div><div class="summary-lbl">Déficit</div></div>
+  <div class="summary-item"><div class="summary-val" id="s-fh" style="color:var(--accent);font-size:13px">--</div><div class="summary-lbl">Período Filtro</div></div>
 </div>
 
 <!-- VIEW 1 -->
@@ -296,30 +343,32 @@ table.stop-table { width:100%; border-collapse:collapse; min-width:700px; }
   <div class="grid grid-machines" id="machines-grid"></div>
 </div>
 
-<!-- VIEW 4: MACHINE DETAIL -->
+<!-- VIEW 4: DETAIL -->
 <div class="view" id="view-detail">
   <button class="back-btn" onclick="goLevel(3)">← Voltar para Máquinas</button>
   <div class="level-header">
     <div class="level-title" id="detail-title">Máquina</div>
     <span id="detail-status"></span>
+    <span id="detail-shift-badge"></span>
   </div>
-
-  <!-- KPI Strip -->
   <div class="detail-kpi-strip" id="detail-kpis"></div>
-
-  <!-- Meta Detail -->
+  <!-- OPERATORS -->
+  <div class="operator-strip">
+    <div class="operator-strip-title">👷 Operador(es) no Período</div>
+    <div class="operator-cards" id="op-cards"></div>
+  </div>
+  <!-- META -->
   <div class="meta-detail-strip">
     <div class="meta-detail-inner">
-      <div class="meta-detail-title">🎯 Meta de Produção — Últimas <span id="detail-fh">2</span>h</div>
+      <div class="meta-detail-title">🎯 Meta de Produção — <span id="detail-fh-label">Turno Atual</span></div>
       <div class="meta-detail-row" id="detail-meta-row"></div>
     </div>
   </div>
-
-  <!-- Gantt -->
+  <!-- GANTT -->
   <div class="section-block">
     <div class="section-title">
-      📊 Linha do Tempo – Últimas <span id="gantt-fh">2</span>h
-      <span class="section-subtitle">Passe o mouse para ver detalhes · Clique nas paradas para abrir</span>
+      📊 Linha do Tempo – <span id="gantt-fh-label">Turno Atual</span>
+      <span class="section-subtitle">Passe o mouse · Clique nas paradas para detalhes</span>
     </div>
     <div class="gantt-legend">
       <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#1a9e5c"></div>Produzindo</div>
@@ -334,17 +383,13 @@ table.stop-table { width:100%; border-collapse:collapse; min-width:700px; }
       </div>
     </div>
   </div>
-
-  <!-- Stop List -->
+  <!-- STOPS -->
   <div class="section-block" style="padding-top:0">
     <div class="section-title">🛑 Paradas no Período <span class="section-subtitle" id="stop-count"></span></div>
     <div class="stop-table-wrap">
       <table class="stop-table">
         <thead>
-          <tr>
-            <th>#</th><th>Início</th><th>Fim</th><th>Duração</th>
-            <th>Tipo</th><th>Motivo</th><th>Déficit Prod.</th><th></th>
-          </tr>
+          <tr><th>#</th><th>Início</th><th>Fim</th><th>Duração</th><th>Tipo</th><th>Motivo</th><th>Operador</th><th>Déficit</th><th></th></tr>
         </thead>
         <tbody id="stop-tbody"></tbody>
       </table>
@@ -352,10 +397,7 @@ table.stop-table { width:100%; border-collapse:collapse; min-width:700px; }
   </div>
 </div>
 
-<!-- GANTT TOOLTIP -->
 <div class="gantt-tooltip" id="gtt"></div>
-
-<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
@@ -371,15 +413,394 @@ table.stop-table { width:100%; border-collapse:collapse; min-width:700px; }
 
 <script>
 // ══ CONSTANTS ══
-const STOP_TYPES = [
-  { key:'maint', lbl:'Manutenção',   cls:'stype-maint', reasons:['Falha mecânica','Quebra de ferramenta','Troca de óleo','Reparo hidráulico','Ajuste de eixo','Vazamento hidráulico'] },
-  { key:'setup', lbl:'Setup/Troca',  cls:'stype-setup', reasons:['Troca de molde','Setup de programa CNC','Troca de lote','Calibração','Ajuste de matriz','Troca de punção'] },
-  { key:'op',    lbl:'Operacional',  cls:'stype-op',    reasons:['Falta de material','Aguardando ordem','Operador ausente','Falta de insumo','Esteira cheia','Aguardando inspeção'] },
-  { key:'qual',  lbl:'Qualidade',    cls:'stype-qual',  reasons:['Inspeção de qualidade','Retrabalho','Verificação dimensional','Análise de refugo','Aprovação de 1ª peça'] },
+const STOP_TYPES=[
+  {key:'maint',lbl:'Manutenção',cls:'stype-maint',reasons:['Falha mecânica','Quebra de ferramenta','Troca de óleo','Reparo hidráulico','Ajuste de eixo','Vazamento hidráulico']},
+  {key:'setup',lbl:'Setup/Troca',cls:'stype-setup',reasons:['Troca de molde','Setup CNC','Troca de lote','Calibração','Ajuste de matriz','Troca de punção']},
+  {key:'op',lbl:'Operacional',cls:'stype-op',reasons:['Falta de material','Aguardando ordem','Operador ausente','Falta de insumo','Esteira cheia','Aguardando inspeção']},
+  {key:'qual',lbl:'Qualidade',cls:'stype-qual',reasons:['Inspeção de qualidade','Retrabalho','Verificação dimensional','Análise de refugo','Aprovação 1ª peça']},
 ];
-const OPERATORS = ['João Silva','Maria Santos','Carlos Lima','Ana Oliveira','Pedro Costa','Lucas Ferreira','Camila Rocha'];
+const OPERATORS=['João Silva','Maria Santos','Carlos Lima','Ana Oliveira','Pedro Costa','Lucas Ferreira','Camila Rocha','Roberto Alves'];
 
-const DATA = {
+// Shift definitions (start hour, end hour, name)
+const SHIFTS=[
+  {name:'1º Turno',start:6,end:14},
+  {name:'2º Turno',start:14,end:22},
+  {name:'3º Turno',start:22,end:6},
+];
+
+function getCurrentShift(){
+  const now=new Date();
+  const h=now.getHours();
+  for(const s of SHIFTS){
+    if(s.start<s.end){ if(h>=s.start&&h<s.end) return s; }
+    else { if(h>=s.start||h<s.end) return s; }
+  }
+  return SHIFTS[0];
+}
+
+function getShiftStart(shift){
+  const now=new Date();
+  const start=new Date(now);
+  start.setHours(shift.start,0,0,0);
+  // If night shift crossing midnight
+  if(shift.start>shift.end && now.getHours()<shift.end){
+    start.setDate(start.getDate()-1);
+  }
+  // If shift start is in the future, go back a day
+  if(start>now) start.setDate(start.getDate()-1);
+  return start;
+}
+
+// ══ STATE ══
+let filterHours=null; // null = turno atual
+let currentUnit=null,currentSector=null,currentMachine=null,currentLevel=1;
+let ganttSegments=[];
+
+// ══ COMPUTED FILTER HOURS ══
+function getFilterHours(){
+  if(filterHours===null){
+    const shift=getCurrentShift();
+    const now=new Date();
+    const start=getShiftStart(shift);
+    return Math.max((now-start)/3600000, 0.1);
+  }
+  return filterHours;
+}
+function getFilterLabel(){
+  if(filterHours===null){
+    const shift=getCurrentShift();
+    const fh=getFilterHours();
+    const mins=Math.round(fh*60);
+    return `${shift.name} (${Math.floor(mins/60)}h${mins%60>0?String(mins%60).padStart(2,'0')+'m':''})`;
+  }
+  return `${filterHours}h`;
+}
+function getFilterStart(){
+  if(filterHours===null){
+    return getShiftStart(getCurrentShift());
+  }
+  return new Date(Date.now()-filterHours*3600000);
+}
+
+// ══ UTILS ══
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const fmtTime=s=>`${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+const fmtNum=n=>Math.round(n).toLocaleString('pt-BR');
+const oeeColor=v=>v>=85?'var(--green)':v>=65?'var(--yellow)':'var(--red)';
+const oeeClass=v=>v>=85?'oee-green':v>=65?'oee-yellow':'oee-red';
+const metaColor=p=>p>=1?'var(--green)':p>=0.8?'var(--orange)':'var(--red)';
+
+function genKPI(sc){
+  const fh=getFilterHours();
+  const tp=rnd(Math.floor(fh*2400*sc),Math.floor(fh*3400*sc));
+  const tpar=rnd(Math.floor(fh*200*sc),Math.floor(fh*900*sc));
+  return{tp,tpar,ops:rnd(Math.ceil(fh*3*sc),Math.ceil(fh*10*sc)),itens:rnd(Math.ceil(fh*60*sc),Math.ceil(fh*180*sc)),ref:rnd(Math.ceil(fh*0.5*sc),Math.ceil(fh*4*sc))};
+}
+function genMeta(metaHora,sc=1){
+  const fh=getFilterHours();
+  const metaTotal=Math.round(metaHora*fh*sc);
+  const realizado=rnd(Math.floor(metaTotal*0.3),Math.floor(metaTotal*1.1));
+  const deficit=Math.max(0,metaTotal-realizado);
+  return{metaTotal,realizado,deficit};
+}
+
+// ══ OPERATOR GENERATION ══
+// How many operators appeared in the period
+function genOperators(mid){
+  const fh=getFilterHours();
+  const m=DATA.machines[mid];
+  if(m.status==='offline') return [];
+  // More hours = more chance of operator change
+  const count=fh>8?rnd(2,3):fh>4?rnd(1,2):1;
+  const ops=[];
+  const used=new Set();
+  for(let i=0;i<count;i++){
+    let op; do{ op=OPERATORS[rnd(0,OPERATORS.length-1)]; }while(used.has(op));
+    used.add(op);
+    // Time windows per operator
+    const partH=fh/count;
+    const startMin=Math.round(i*partH*60);
+    const endMin=i===count-1?Math.round(fh*60):Math.round((i+1)*partH*60);
+    const startT=new Date(getFilterStart().getTime()+startMin*60000);
+    const endT=new Date(getFilterStart().getTime()+endMin*60000);
+    const tStr=t=>t.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    ops.push({name:op,from:tStr(startT),to:tStr(endT),initials:op.split(' ').map(w=>w[0]).join('').slice(0,2)});
+  }
+  return ops;
+}
+
+// ══ META SECTION (cards) ══
+function metaSection(metaHora,sc=1){
+  const m=genMeta(metaHora,sc);
+  const pct=Math.min(m.realizado/m.metaTotal,1);
+  const col=metaColor(pct);
+  const fh=getFilterHours();
+  const badgeCls=pct>=1?'ok':pct>=0.8?'warn':'bad';
+  const badgeLbl=pct>=1?'✓ Meta atingida':pct>=0.8?`▲ Déficit ${fmtNum(m.deficit)} pç`:`✕ Déficit ${fmtNum(m.deficit)} pç`;
+  return`<div class="meta-section">
+    <div class="meta-section-title">─── Meta de Produção (${getFilterLabel()}) ───</div>
+    <div class="meta-cols">
+      <div class="meta-col"><div class="meta-col-label">Meta</div><div class="meta-col-val" style="color:var(--accent)">${fmtNum(m.metaTotal)}</div><div class="meta-col-sub">${metaHora} pç/h</div></div>
+      <div class="meta-sep"></div>
+      <div class="meta-col"><div class="meta-col-label">Realizado</div><div class="meta-col-val" style="color:${col}">${fmtNum(m.realizado)}</div><div class="meta-col-sub">${fmtNum(Math.round(m.realizado/fh))} pç/h</div></div>
+      <div class="meta-sep"></div>
+      <div class="meta-col"><div class="meta-col-label">Déficit</div><div class="meta-col-val" style="color:${m.deficit===0?'var(--green)':'var(--red)'}">${m.deficit===0?'—':fmtNum(m.deficit)}</div><div class="meta-col-sub" style="color:${m.deficit===0?'var(--green)':'var(--red)'}">${m.deficit===0?'OK':fmtNum(Math.round(m.deficit/fh))+' pç/h'}</div></div>
+    </div>
+    <div class="meta-bar-row">
+      <div class="meta-bar-labels"><span>0</span><span>${fmtNum(m.metaTotal)} meta</span></div>
+      <div class="meta-bar-track"><div class="meta-bar-fill" style="width:${Math.round(pct*100)}%;background:${col}"></div></div>
+    </div>
+    <span class="meta-badge ${badgeCls}">${badgeLbl}</span>
+  </div>`;
+}
+
+// ══ GANTT ══
+function genGanttSegs(mStatus){
+  const totalMins=Math.round(getFilterHours()*60);
+  const seqs={running:['running','stopped','running','setup','running','stopped','running'],stopped:['stopped','running','stopped','running'],setup:['setup','running','stopped','running','setup'],offline:['offline']};
+  const seq=seqs[mStatus]||seqs.running;
+  const segs=[]; let cursor=0,idx=0;
+  while(cursor<totalMins){
+    const rem=totalMins-cursor;
+    const type=seq[idx%seq.length]; idx++;
+    const minD=Math.min(3,rem),maxD=Math.min(rem,Math.max(minD,Math.floor(rem*0.45)));
+    const dur=rnd(minD,maxD);
+    const stopInfo=(type==='stopped'||type==='setup')?makeStopInfo(type):null;
+    segs.push({type,start:cursor,dur:Math.min(dur,rem),stopInfo});
+    cursor+=dur;
+    if(cursor>=totalMins)break;
+  }
+  return segs;
+}
+function makeStopInfo(type){
+  const cat=type==='setup'?STOP_TYPES[1]:STOP_TYPES[rnd(0,STOP_TYPES.length-1)];
+  return{type:cat,reason:cat.reasons[rnd(0,cat.reasons.length-1)],operator:OPERATORS[rnd(0,OPERATORS.length-1)],order:`OP-${rnd(10000,99999)}`};
+}
+
+function buildGantt(mid){
+  const m=DATA.machines[mid];
+  const totalMins=Math.round(getFilterHours()*60);
+  const startTime=getFilterStart();
+  ganttSegments=genGanttSegs(m.status);
+  const track=document.getElementById('gantt-track');
+  track.innerHTML='';
+  ganttSegments.forEach(seg=>{
+    const left=(seg.start/totalMins*100).toFixed(2);
+    const width=(seg.dur/totalMins*100).toFixed(2);
+    const sT=new Date(startTime.getTime()+seg.start*60000);
+    const eT=new Date(startTime.getTime()+(seg.start+seg.dur)*60000);
+    const sStr=sT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    const eStr=eT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');
+    el.className=`gantt-seg ${seg.type}`;
+    el.style.left=left+'%';
+    el.style.width=width+'%';
+    if(parseFloat(width)>5) el.textContent=seg.type==='running'?'▶':seg.type==='stopped'?'■':seg.type==='setup'?'◐':'○';
+    el.addEventListener('mouseenter',e=>showTT(e,seg,sStr,eStr,m.metaHora));
+    el.addEventListener('mousemove',moveTT);
+    el.addEventListener('mouseleave',hideTT);
+    if(seg.stopInfo) el.addEventListener('click',e=>{e.stopPropagation();openModal(seg,sStr,eStr,m.metaHora);});
+    track.appendChild(el);
+  });
+  // Axis
+  const axis=document.getElementById('gantt-axis');
+  axis.innerHTML='';
+  const steps=Math.min(Math.ceil(getFilterHours())+1,13);
+  for(let i=0;i<steps;i++){
+    const t=new Date(startTime.getTime()+(i/(steps-1))*getFilterHours()*3600000);
+    const sp=document.createElement('span');
+    sp.textContent=t.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    axis.appendChild(sp);
+  }
+}
+
+function buildStopList(mid){
+  const m=DATA.machines[mid];
+  const startTime=getFilterStart();
+  const stops=ganttSegments.filter(s=>s.type==='stopped'||s.type==='setup');
+  document.getElementById('stop-count').textContent=`· ${stops.length} ocorrência${stops.length!==1?'s':''}`;
+  const tbody=document.getElementById('stop-tbody');
+  tbody.innerHTML='';
+  if(!stops.length){
+    tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--green);font-weight:600;">✓ Nenhuma parada registrada no período</td></tr>`;
+    return;
+  }
+  stops.forEach((seg,i)=>{
+    const sT=new Date(startTime.getTime()+seg.start*60000);
+    const eT=new Date(startTime.getTime()+(seg.start+seg.dur)*60000);
+    const sStr=sT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    const eStr=eT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    const loss=Math.round((seg.dur/60)*m.metaHora);
+    const info=seg.stopInfo||{type:{lbl:'Parada',cls:'stype-maint'},reason:'Não registrado',operator:'—',order:'—'};
+    const tr=document.createElement('tr');
+    const segData=JSON.stringify({...seg,stopInfo:{type:{lbl:info.type.lbl,cls:info.type.cls,key:info.type.key},reason:info.reason,operator:info.operator,order:info.order}}).replace(/'/g,"&#39;");
+    tr.innerHTML=`
+      <td style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px">${i+1}</td>
+      <td style="font-family:'Share Tech Mono',monospace">${sStr}</td>
+      <td style="font-family:'Share Tech Mono',monospace">${eStr}</td>
+      <td><span class="stop-dur">${fmtTime(seg.dur*60)}</span></td>
+      <td><span class="stype ${info.type.cls}">${info.type.lbl}</span></td>
+      <td>${info.reason}</td>
+      <td style="font-size:12px;color:var(--muted)">${info.operator||'—'}</td>
+      <td><span class="stop-loss">−${fmtNum(loss)} pç</span></td>
+      <td><button class="detail-btn" onclick='openModalRaw(${segData},"${sStr}","${eStr}",${m.metaHora})'>Ver detalhe</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ══ TOOLTIP ══
+function showTT(e,seg,s,end,mH){
+  const tip=document.getElementById('gtt');
+  const labels={running:'▶ Produzindo',stopped:'■ Parada',setup:'◐ Setup/Prog.',offline:'○ Sem Comunicação'};
+  const cols={running:'#1a9e5c',stopped:'#cc1133',setup:'#e05a00',offline:'#9ba8b8'};
+  const loss=seg.type!=='running'?Math.round((seg.dur/60)*mH):null;
+  const gain=seg.type==='running'?Math.round((seg.dur/60)*mH):null;
+  tip.innerHTML=`
+    <div class="gantt-tt-title" style="color:${cols[seg.type]}">${labels[seg.type]||seg.type}</div>
+    <div class="gantt-tt-row"><span>Início</span><span>${s}</span></div>
+    <div class="gantt-tt-row"><span>Fim</span><span>${end}</span></div>
+    <div class="gantt-tt-row"><span>Duração</span><span>${fmtTime(seg.dur*60)}</span></div>
+    ${seg.stopInfo?`<div class="gantt-tt-row"><span>Motivo</span><span style="max-width:130px;text-align:right">${seg.stopInfo.reason}</span></div>`:''}
+    ${seg.stopInfo?`<div class="gantt-tt-row"><span>Operador</span><span>${seg.stopInfo.operator}</span></div>`:''}
+    <div class="gantt-tt-divider"></div>
+    ${loss!=null?`<div class="gantt-tt-row"><span>Déficit produção</span><span style="color:#ff8888">−${fmtNum(loss)} pç</span></div>`:''}
+    ${gain!=null?`<div class="gantt-tt-row"><span>Produção estimada</span><span style="color:#88ffcc">~${fmtNum(gain)} pç</span></div>`:''}
+    ${seg.stopInfo?`<div class="gantt-tt-hint">Clique para ver detalhes</div>`:''}
+  `;
+  tip.style.display='block';
+  moveTT(e);
+}
+function moveTT(e){const t=document.getElementById('gtt');t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
+function hideTT(){document.getElementById('gtt').style.display='none';}
+
+// ══ MODAL ══
+function openModal(seg,s,end,mH){
+  const info=seg.stopInfo||{type:{lbl:'Parada',cls:'stype-maint'},reason:'—',operator:'—',order:'—'};
+  openModalRaw({...seg,stopInfo:{type:{lbl:info.type.lbl,cls:info.type.cls},reason:info.reason,operator:info.operator,order:info.order}},s,end,mH);
+}
+function openModalRaw(seg,s,end,mH){
+  const info=seg.stopInfo||{type:{lbl:'Parada',cls:'stype-maint'},reason:'—',operator:'—',order:'—'};
+  const loss=Math.round((seg.dur/60)*mH);
+  document.getElementById('m-title').textContent=info.reason;
+  document.getElementById('m-sub').textContent=`${info.type.lbl} · ${s} → ${end} · ${fmtTime(seg.dur*60)}`;
+  document.getElementById('m-grid').innerHTML=`
+    <div class="mfield"><div class="mfield-lbl">Tipo</div><div class="mfield-val">${info.type.lbl}</div></div>
+    <div class="mfield"><div class="mfield-lbl">Motivo</div><div class="mfield-val">${info.reason}</div></div>
+    <div class="mfield"><div class="mfield-lbl">Início</div><div class="mfield-val">${s}</div></div>
+    <div class="mfield"><div class="mfield-lbl">Fim</div><div class="mfield-val">${end}</div></div>
+    <div class="mfield"><div class="mfield-lbl">Duração</div><div class="mfield-val red">${fmtTime(seg.dur*60)}</div></div>
+    <div class="mfield"><div class="mfield-lbl">Operador</div><div class="mfield-val">${info.operator||'—'}</div></div>
+    <div class="mfield"><div class="mfield-lbl">Ordem de Produção</div><div class="mfield-val">${info.order||'—'}</div></div>
+    <div class="mfield"><div class="mfield-lbl">Déficit de Produção</div><div class="mfield-val orange">−${fmtNum(loss)} peças</div></div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+// ══ DETAIL ══
+function renderDetail(mid){
+  const m=DATA.machines[mid];
+  const k=genKPI(.25);
+  const meta=genMeta(m.metaHora,.25);
+  const pct=Math.min(meta.realizado/meta.metaTotal,1);
+  const col=metaColor(pct);
+  const fh=getFilterHours();
+  const shift=getCurrentShift();
+  const statusMap={running:{cls:'status-running',lbl:'● Executando'},stopped:{cls:'status-stopped',lbl:'■ Parado'},setup:{cls:'status-setup',lbl:'◐ Setup/Prog.'},offline:{cls:'status-offline',lbl:'○ Sem Comunicação'}};
+  const st=statusMap[m.status]||statusMap.offline;
+
+  document.getElementById('detail-title').textContent=`[${mid}] ${m.name}`;
+  document.getElementById('detail-status').innerHTML=`<span class="status-badge ${st.cls}">${st.lbl}</span>`;
+
+  const shiftBadge=filterHours===null
+    ?`<span class="shift-badge">🕐 ${shift.name} · desde ${getShiftStart(shift).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span>`
+    :`<span class="shift-badge">⏱ Últimas ${filterHours}h</span>`;
+  document.getElementById('detail-shift-badge').innerHTML=shiftBadge;
+
+  const fhLabel=getFilterLabel();
+  document.getElementById('detail-fh-label').textContent=fhLabel;
+  document.getElementById('gantt-fh-label').textContent=fhLabel;
+
+  // KPI strip
+  document.getElementById('detail-kpis').innerHTML=`
+    <div class="dkpi" style="border-left:4px solid var(--green)">
+      <div class="dkpi-label">Tempo Produção</div>
+      <div class="dkpi-val" style="color:var(--green)">${fmtTime(k.tp)}</div>
+      <div class="dkpi-sub">${fhLabel}</div>
+    </div>
+    <div class="dkpi" style="border-left:4px solid var(--red)">
+      <div class="dkpi-label">Tempo Paradas</div>
+      <div class="dkpi-val" style="color:var(--red)">${fmtTime(k.tpar)}</div>
+      <div class="dkpi-sub">${fhLabel}</div>
+    </div>
+    <div class="dkpi" style="border-left:4px solid var(--accent)">
+      <div class="dkpi-label">Ops Apontadas</div>
+      <div class="dkpi-val" style="color:var(--accent)">${k.ops}</div>
+      <div class="dkpi-sub">operações</div>
+    </div>
+    <div class="dkpi" style="border-left:4px solid var(--orange)">
+      <div class="dkpi-label">Refugos</div>
+      <div class="dkpi-val" style="color:var(--orange)">${k.ref}</div>
+      <div class="dkpi-sub">${fmtNum(k.itens)} total prod.</div>
+    </div>
+    <div class="dkpi" style="border-left:4px solid var(--yellow)">
+      <div class="dkpi-label">OEE Turno</div>
+      <div class="dkpi-val" style="color:${oeeColor(m.oee)}">${m.oee}%</div>
+      <div class="dkpi-sub">Disp ${m.disp}% · Qual ${m.qual}%</div>
+    </div>
+  `;
+
+  // Operators
+  const ops=genOperators(mid);
+  const opCards=document.getElementById('op-cards');
+  if(!ops.length){
+    opCards.innerHTML=`<div style="color:var(--muted);font-size:13px;padding:10px 0">Sem operador registrado no período</div>`;
+  } else {
+    opCards.innerHTML=ops.map(op=>`
+      <div class="op-card">
+        <div class="op-avatar">${op.initials}</div>
+        <div class="op-info">
+          <div class="op-name">${op.name}</div>
+          <div class="op-detail">${op.from} → ${op.to}</div>
+          <span class="op-period">Atuou no período</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Meta detail
+  document.getElementById('detail-meta-row').innerHTML=`
+    <div class="meta-big-block">
+      <div class="meta-big-lbl">Meta</div>
+      <div class="meta-big" style="color:var(--accent)">${fmtNum(meta.metaTotal)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${m.metaHora} pç/h</div>
+    </div>
+    <div class="meta-big-block">
+      <div class="meta-big-lbl">Realizado</div>
+      <div class="meta-big" style="color:${col}">${fmtNum(meta.realizado)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${fmtNum(Math.round(meta.realizado/fh))} pç/h</div>
+    </div>
+    <div class="meta-big-block">
+      <div class="meta-big-lbl">Déficit</div>
+      <div class="meta-big" style="color:${meta.deficit===0?'var(--green)':'var(--red)'}">${meta.deficit===0?'—':fmtNum(meta.deficit)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${meta.deficit===0?'Meta atingida':fmtNum(Math.round(meta.deficit/fh))+' pç/h abaixo'}</div>
+    </div>
+    <div class="meta-detail-bar-wrap">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px">
+        <span>Progresso: ${Math.round(pct*100)}%</span>
+        <span style="color:${col};font-weight:700">${pct>=1?'✓ Meta atingida':pct>=0.8?'▲ Atenção':'✕ Crítico'}</span>
+      </div>
+      <div class="meta-detail-bar-track"><div class="meta-detail-bar-fill" style="width:${Math.round(pct*100)}%;background:${col}"></div></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;font-family:'Share Tech Mono',monospace">Ritmo ${fmtNum(Math.round(meta.realizado/fh))} pç/h · Meta ${m.metaHora} pç/h · Período ${fhLabel}</div>
+    </div>
+  `;
+
+  buildGantt(mid);
+  buildStopList(mid);
+}
+
+// ══ DATA ══
+const DATA={
   units:[
     {id:'u1',name:'Implementos',code:'02',sectors:['s1','s2','s3','s4'],metaHora:120},
     {id:'u2',name:'Indústria',code:'01',sectors:['s1','s2','s5'],metaHora:100},
@@ -421,294 +842,16 @@ const DATA = {
   }
 };
 
-// ══ STATE ══
-let filterHours=2, currentUnit=null, currentSector=null, currentMachine=null, currentLevel=1;
-let ganttSegments=[];
-
-// ══ UTILS ══
-const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const fmtTime=s=>`${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
-const fmtNum=n=>Math.round(n).toLocaleString('pt-BR');
-const oeeColor=v=>v>=85?'var(--green)':v>=65?'var(--yellow)':'var(--red)';
-const oeeClass=v=>v>=85?'oee-green':v>=65?'oee-yellow':'oee-red';
-const metaColor=p=>p>=1?'var(--green)':p>=0.8?'var(--orange)':'var(--red)';
-
-function genKPI(sc){
-  const tp=rnd(Math.floor(filterHours*2400*sc),Math.floor(filterHours*3400*sc));
-  const tpar=rnd(Math.floor(filterHours*200*sc),Math.floor(filterHours*900*sc));
-  return{tp,tpar,ops:rnd(Math.ceil(filterHours*3*sc),Math.ceil(filterHours*10*sc)),itens:rnd(Math.ceil(filterHours*60*sc),Math.ceil(filterHours*180*sc)),ref:rnd(Math.ceil(filterHours*0.5*sc),Math.ceil(filterHours*4*sc))};
-}
-
-function genMeta(metaHora,sc=1){
-  const metaTotal=Math.round(metaHora*filterHours*sc);
-  const realizado=rnd(Math.floor(metaTotal*0.3),Math.floor(metaTotal*1.1));
-  const deficit=Math.max(0,metaTotal-realizado);
-  return{metaTotal,realizado,deficit};
-}
-
-// ══ META SECTION (cards) ══
-function metaSection(metaHora,sc=1){
-  const m=genMeta(metaHora,sc);
-  const pct=Math.min(m.realizado/m.metaTotal,1);
-  const col=metaColor(pct);
-  const badgeCls=pct>=1?'ok':pct>=0.8?'warn':'bad';
-  const badgeLbl=pct>=1?'✓ Meta atingida':pct>=0.8?`▲ Déficit ${fmtNum(m.deficit)} pç`:`✕ Déficit ${fmtNum(m.deficit)} pç`;
-  const ritmoReal=fmtNum(Math.round(m.realizado/filterHours));
-  return`<div class="meta-section">
-    <div class="meta-section-title">─── Meta de Produção (${filterHours}h) ───</div>
-    <div class="meta-cols">
-      <div class="meta-col"><div class="meta-col-label">Meta</div><div class="meta-col-val" style="color:var(--accent)">${fmtNum(m.metaTotal)}</div><div class="meta-col-sub">${metaHora} pç/h</div></div>
-      <div class="meta-sep"></div>
-      <div class="meta-col"><div class="meta-col-label">Realizado</div><div class="meta-col-val" style="color:${col}">${fmtNum(m.realizado)}</div><div class="meta-col-sub">${ritmoReal} pç/h</div></div>
-      <div class="meta-sep"></div>
-      <div class="meta-col"><div class="meta-col-label">Déficit</div><div class="meta-col-val" style="color:${m.deficit===0?'var(--green)':'var(--red)'}">${m.deficit===0?'—':fmtNum(m.deficit)}</div><div class="meta-col-sub" style="color:${m.deficit===0?'var(--green)':'var(--red)'}">${m.deficit===0?'OK':fmtNum(Math.round(m.deficit/filterHours))+' pç/h'}</div></div>
-    </div>
-    <div class="meta-bar-row">
-      <div class="meta-bar-labels"><span>0</span><span>${fmtNum(m.metaTotal)} meta</span></div>
-      <div class="meta-bar-track"><div class="meta-bar-fill" style="width:${Math.round(pct*100)}%;background:${col}"></div></div>
-    </div>
-    <span class="meta-badge ${badgeCls}">${badgeLbl}</span>
-  </div>`;
-}
-
-// ══ GANTT ══
-function genGanttSegs(mStatus){
-  const totalMins=filterHours*60;
-  const seqs={
-    running:['running','stopped','running','setup','running','stopped','running'],
-    stopped:['stopped','running','stopped','running'],
-    setup:  ['setup','running','stopped','running','setup'],
-    offline:['offline'],
-  };
-  const seq=seqs[mStatus]||seqs.running;
-  const segs=[]; let cursor=0, idx=0;
-  while(cursor<totalMins){
-    const rem=totalMins-cursor;
-    const type=seq[idx%seq.length]; idx++;
-    const minD=Math.min(3,rem), maxD=Math.min(rem,Math.max(minD,Math.floor(rem*0.45)));
-    const dur=rnd(minD,maxD);
-    const stopInfo=(type==='stopped'||type==='setup')?makeStopInfo(type):null;
-    segs.push({type,start:cursor,dur:Math.min(dur,rem),stopInfo});
-    cursor+=dur;
-    if(cursor>=totalMins)break;
-  }
-  return segs;
-}
-
-function makeStopInfo(type){
-  const cat=type==='setup'?STOP_TYPES[1]:STOP_TYPES[rnd(0,STOP_TYPES.length-1)];
-  return{type:cat,reason:cat.reasons[rnd(0,cat.reasons.length-1)],operator:OPERATORS[rnd(0,OPERATORS.length-1)],order:`OP-${rnd(10000,99999)}`};
-}
-
-function buildGantt(mid){
-  const m=DATA.machines[mid];
-  const totalMins=filterHours*60;
-  const now=new Date();
-  const startTime=new Date(now-filterHours*3600000);
-  ganttSegments=genGanttSegs(m.status);
-
-  const track=document.getElementById('gantt-track');
-  track.innerHTML='';
-  ganttSegments.forEach(seg=>{
-    const left=(seg.start/totalMins*100).toFixed(2);
-    const width=(seg.dur/totalMins*100).toFixed(2);
-    const sT=new Date(startTime.getTime()+seg.start*60000);
-    const eT=new Date(startTime.getTime()+(seg.start+seg.dur)*60000);
-    const sStr=sT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    const eStr=eT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    const el=document.createElement('div');
-    el.className=`gantt-seg ${seg.type}`;
-    el.style.left=left+'%';
-    el.style.width=width+'%';
-    if(parseFloat(width)>6) el.textContent=seg.type==='running'?'▶':seg.type==='stopped'?'■':seg.type==='setup'?'◐':'○';
-    el.addEventListener('mouseenter',e=>showTT(e,seg,sStr,eStr,m.metaHora));
-    el.addEventListener('mousemove',moveTT);
-    el.addEventListener('mouseleave',hideTT);
-    if(seg.stopInfo) el.addEventListener('click',e=>{e.stopPropagation();openModal(seg,sStr,eStr,m.metaHora);});
-    track.appendChild(el);
-  });
-
-  // Axis
-  const axis=document.getElementById('gantt-axis');
-  axis.innerHTML='';
-  const steps=Math.min(filterHours+1,9);
-  for(let i=0;i<steps;i++){
-    const t=new Date(startTime.getTime()+(i/(steps-1))*filterHours*3600000);
-    const sp=document.createElement('span');
-    sp.textContent=t.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    axis.appendChild(sp);
-  }
-}
-
-function buildStopList(mid){
-  const m=DATA.machines[mid];
-  const now=new Date();
-  const startTime=new Date(now-filterHours*3600000);
-  const stops=ganttSegments.filter(s=>s.type==='stopped'||s.type==='setup');
-  document.getElementById('stop-count').textContent=`· ${stops.length} ocorrência${stops.length!==1?'s':''} encontrada${stops.length!==1?'s':''}`;
-  const tbody=document.getElementById('stop-tbody');
-  tbody.innerHTML='';
-  if(!stops.length){
-    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--green);font-weight:600;">✓ Nenhuma parada registrada no período selecionado</td></tr>`;
-    return;
-  }
-  stops.forEach((seg,i)=>{
-    const sT=new Date(startTime.getTime()+seg.start*60000);
-    const eT=new Date(startTime.getTime()+(seg.start+seg.dur)*60000);
-    const sStr=sT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    const eStr=eT.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    const loss=Math.round((seg.dur/60)*m.metaHora);
-    const info=seg.stopInfo||{type:{lbl:'Parada',cls:'stype-maint'},reason:'Não registrado',operator:'—',order:'—'};
-    const tr=document.createElement('tr');
-    const segData=JSON.stringify({...seg,stopInfo:{type:{lbl:info.type.lbl,cls:info.type.cls,key:info.type.key},reason:info.reason,operator:info.operator,order:info.order}}).replace(/'/g,"&#39;");
-    tr.innerHTML=`
-      <td style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px">${i+1}</td>
-      <td style="font-family:'Share Tech Mono',monospace">${sStr}</td>
-      <td style="font-family:'Share Tech Mono',monospace">${eStr}</td>
-      <td><span class="stop-dur">${fmtTime(seg.dur*60)}</span></td>
-      <td><span class="stype ${info.type.cls}">${info.type.lbl}</span></td>
-      <td style="max-width:200px">${info.reason}</td>
-      <td><span class="stop-loss">−${fmtNum(loss)} pç</span></td>
-      <td><button class="detail-btn" onclick='openModalRaw(${segData},"${sStr}","${eStr}",${m.metaHora})'>Ver detalhe</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-// ══ TOOLTIP ══
-function showTT(e,seg,s,end,mH){
-  const tip=document.getElementById('gtt');
-  const labels={running:'▶ Produzindo',stopped:'■ Parada',setup:'◐ Setup/Prog.',offline:'○ Sem Comunicação'};
-  const cols={running:'#1a9e5c',stopped:'#cc1133',setup:'#e05a00',offline:'#9ba8b8'};
-  const loss=seg.type!=='running'?Math.round((seg.dur/60)*mH):null;
-  const gain=seg.type==='running'?Math.round((seg.dur/60)*mH):null;
-  tip.innerHTML=`
-    <div class="gantt-tt-title" style="color:${cols[seg.type]}">${labels[seg.type]||seg.type}</div>
-    <div class="gantt-tt-row"><span>Início</span><span>${s}</span></div>
-    <div class="gantt-tt-row"><span>Fim</span><span>${end}</span></div>
-    <div class="gantt-tt-row"><span>Duração</span><span>${fmtTime(seg.dur*60)}</span></div>
-    ${seg.stopInfo?`<div class="gantt-tt-row"><span>Motivo</span><span style="max-width:130px;text-align:right">${seg.stopInfo.reason}</span></div>`:''}
-    <div class="gantt-tt-divider"></div>
-    ${loss!==null?`<div class="gantt-tt-row"><span>Déficit produção</span><span style="color:#ff8888">−${fmtNum(loss)} pç</span></div>`:''}
-    ${gain!==null?`<div class="gantt-tt-row"><span>Produção no período</span><span style="color:#88ffcc">~${fmtNum(gain)} pç</span></div>`:''}
-    ${seg.stopInfo?`<div class="gantt-tt-hint">Clique para ver detalhes da parada</div>`:''}
-  `;
-  tip.style.display='block';
-  moveTT(e);
-}
-function moveTT(e){const t=document.getElementById('gtt');t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
-function hideTT(){document.getElementById('gtt').style.display='none';}
-
-// ══ MODAL ══
-function openModal(seg,s,end,mH){
-  const info=seg.stopInfo||{type:{lbl:'Parada',cls:'stype-maint'},reason:'—',operator:'—',order:'—'};
-  openModalRaw({...seg,stopInfo:{type:{lbl:info.type.lbl,cls:info.type.cls},reason:info.reason,operator:info.operator,order:info.order}},s,end,mH);
-}
-function openModalRaw(seg,s,end,mH){
-  const info=seg.stopInfo||{type:{lbl:'Parada',cls:'stype-maint'},reason:'—',operator:'—',order:'—'};
-  const loss=Math.round((seg.dur/60)*mH);
-  document.getElementById('m-title').textContent=info.reason;
-  document.getElementById('m-sub').textContent=`${info.type.lbl} · ${s} → ${end} · ${fmtTime(seg.dur*60)}`;
-  document.getElementById('m-grid').innerHTML=`
-    <div class="mfield"><div class="mfield-lbl">Tipo</div><div class="mfield-val">${info.type.lbl}</div></div>
-    <div class="mfield"><div class="mfield-lbl">Motivo</div><div class="mfield-val">${info.reason}</div></div>
-    <div class="mfield"><div class="mfield-lbl">Início</div><div class="mfield-val">${s}</div></div>
-    <div class="mfield"><div class="mfield-lbl">Fim</div><div class="mfield-val">${end}</div></div>
-    <div class="mfield"><div class="mfield-lbl">Duração</div><div class="mfield-val red">${fmtTime(seg.dur*60)}</div></div>
-    <div class="mfield"><div class="mfield-lbl">Operador</div><div class="mfield-val">${info.operator||'—'}</div></div>
-    <div class="mfield"><div class="mfield-lbl">Ordem de Produção</div><div class="mfield-val">${info.order||'—'}</div></div>
-    <div class="mfield"><div class="mfield-lbl">Déficit de Produção</div><div class="mfield-val orange">−${fmtNum(loss)} peças</div></div>
-  `;
-  document.getElementById('modal').classList.add('open');
-}
-
-// ══ DETAIL RENDER ══
-function renderDetail(mid){
-  const m=DATA.machines[mid];
-  const k=genKPI(0.25);
-  const meta=genMeta(m.metaHora,0.25);
-  const pct=Math.min(meta.realizado/meta.metaTotal,1);
-  const col=metaColor(pct);
-  const statusMap={running:{cls:'status-running',lbl:'● Executando'},stopped:{cls:'status-stopped',lbl:'■ Parado'},setup:{cls:'status-setup',lbl:'◐ Setup/Prog.'},offline:{cls:'status-offline',lbl:'○ Sem Comunicação'}};
-  const st=statusMap[m.status]||statusMap.offline;
-
-  document.getElementById('detail-title').textContent=`[${mid}] ${m.name}`;
-  document.getElementById('detail-status').innerHTML=`<span class="status-badge ${st.cls}">${st.lbl}</span>`;
-  document.getElementById('detail-fh').textContent=filterHours;
-  document.getElementById('gantt-fh').textContent=filterHours;
-
-  // KPI strip
-  document.getElementById('detail-kpis').innerHTML=`
-    <div class="dkpi" style="border-left:4px solid var(--green)">
-      <div class="dkpi-label">Tempo Produção</div>
-      <div class="dkpi-val" style="color:var(--green)">${fmtTime(k.tp)}</div>
-      <div class="dkpi-sub">Últimas ${filterHours}h</div>
-    </div>
-    <div class="dkpi" style="border-left:4px solid var(--red)">
-      <div class="dkpi-label">Tempo Paradas</div>
-      <div class="dkpi-val" style="color:var(--red)">${fmtTime(k.tpar)}</div>
-      <div class="dkpi-sub">Últimas ${filterHours}h</div>
-    </div>
-    <div class="dkpi" style="border-left:4px solid var(--accent)">
-      <div class="dkpi-label">Ops Apontadas</div>
-      <div class="dkpi-val" style="color:var(--accent)">${k.ops}</div>
-      <div class="dkpi-sub">operações</div>
-    </div>
-    <div class="dkpi" style="border-left:4px solid var(--orange)">
-      <div class="dkpi-label">Refugos</div>
-      <div class="dkpi-val" style="color:var(--orange)">${k.ref}</div>
-      <div class="dkpi-sub">${fmtNum(k.itens)} total prod.</div>
-    </div>
-    <div class="dkpi" style="border-left:4px solid var(--yellow)">
-      <div class="dkpi-label">OEE Turno</div>
-      <div class="dkpi-val" style="color:${oeeColor(m.oee)}">${m.oee}%</div>
-      <div class="dkpi-sub">Disp ${m.disp}% · Qual ${m.qual}%</div>
-    </div>
-  `;
-
-  // Meta detail
-  document.getElementById('detail-meta-row').innerHTML=`
-    <div class="meta-big-block">
-      <div class="meta-big-lbl">Meta ${filterHours}h</div>
-      <div class="meta-big" style="color:var(--accent)">${fmtNum(meta.metaTotal)}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">${m.metaHora} pç/h</div>
-    </div>
-    <div class="meta-big-block">
-      <div class="meta-big-lbl">Realizado</div>
-      <div class="meta-big" style="color:${col}">${fmtNum(meta.realizado)}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">${fmtNum(Math.round(meta.realizado/filterHours))} pç/h</div>
-    </div>
-    <div class="meta-big-block">
-      <div class="meta-big-lbl">Déficit</div>
-      <div class="meta-big" style="color:${meta.deficit===0?'var(--green)':'var(--red)'}">${meta.deficit===0?'—':fmtNum(meta.deficit)}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">${meta.deficit===0?'Meta atingida':fmtNum(Math.round(meta.deficit/filterHours))+' pç/h abaixo'}</div>
-    </div>
-    <div class="meta-detail-bar-wrap">
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-        <span>Progresso: ${Math.round(pct*100)}%</span>
-        <span style="color:${col};font-weight:700">${pct>=1?'✓ Meta atingida':pct>=0.8?'▲ Atenção':'✕ Crítico'}</span>
-      </div>
-      <div class="meta-detail-bar-track">
-        <div class="meta-detail-bar-fill" style="width:${Math.round(pct*100)}%;background:${col}"></div>
-      </div>
-      <div class="meta-detail-notes" style="margin-top:6px">Ritmo atual ${fmtNum(Math.round(meta.realizado/filterHours))} pç/h · Meta ${m.metaHora} pç/h · Período ${filterHours}h</div>
-    </div>
-  `;
-
-  buildGantt(mid);
-  buildStopList(mid);
-}
-
 // ══ NAVIGATION ══
 function setFilter(h,btn){
-  filterHours=h;
+  filterHours=h==='shift'?null:h;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   refresh();
 }
-function drillUnit(uid){ currentUnit=DATA.units.find(u=>u.id===uid); currentLevel=2; renderSectors(); showView('view-sectors'); updateBC(); }
-function drillSector(sid){ currentSector={id:sid,...DATA.sectors[sid]}; currentLevel=3; renderMachines(); showView('view-machines'); updateBC(); }
-function drillMachine(mid){ currentMachine=mid; currentLevel=4; renderDetail(mid); showView('view-detail'); updateBC(); window.scrollTo(0,0); }
+function drillUnit(uid){currentUnit=DATA.units.find(u=>u.id===uid);currentLevel=2;renderSectors();showView('view-sectors');updateBC();}
+function drillSector(sid){currentSector={id:sid,...DATA.sectors[sid]};currentLevel=3;renderMachines();showView('view-machines');updateBC();}
+function drillMachine(mid){currentMachine=mid;currentLevel=4;renderDetail(mid);showView('view-detail');updateBC();window.scrollTo(0,0);}
 function goLevel(l){
   currentLevel=l;
   if(l===1){showView('view-units');currentUnit=currentSector=currentMachine=null;}
@@ -716,7 +859,7 @@ function goLevel(l){
   if(l===3){showView('view-machines');currentMachine=null;}
   updateBC();
 }
-function showView(id){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function updateBC(){
   const bc=document.getElementById('breadcrumb');
   let h=`<span class="bc-item ${currentLevel===1?'active':''}" onclick="goLevel(1)">🏭 Unidades</span>`;
@@ -726,7 +869,7 @@ function updateBC(){
   bc.innerHTML=h;
 }
 
-// ══ RENDER LISTS ══
+// ══ RENDER ══
 function renderUnitCard(u){
   const k=genKPI(u.sectors.length*.7);
   const oee=rnd(55,85),perf=rnd(90,130),disp=rnd(55,80),qual=rnd(92,100);
@@ -817,9 +960,9 @@ function renderMachineCard(mid){
   </div>`;
 }
 
-function renderUnits(){ document.getElementById('units-grid').innerHTML=DATA.units.map(renderUnitCard).join(''); document.getElementById('unit-count').textContent=`${DATA.units.length} unidades · filtro: últimas ${filterHours}h`; updateSummary(); }
-function renderSectors(){ const s=currentUnit.sectors; document.getElementById('sectors-grid').innerHTML=s.map(renderSectorCard).join(''); document.getElementById('sector-title').textContent=`Setores – ${currentUnit.name}`; document.getElementById('sector-count').textContent=`${s.length} setores · filtro: últimas ${filterHours}h`; updateSummary(); }
-function renderMachines(){ const m=currentSector.machines; document.getElementById('machines-grid').innerHTML=m.map(renderMachineCard).join(''); document.getElementById('machine-title').textContent=`Máquinas – ${currentSector.name}`; document.getElementById('machine-count').textContent=`${m.length} máquinas · filtro: últimas ${filterHours}h`; updateSummary(); }
+function renderUnits(){document.getElementById('units-grid').innerHTML=DATA.units.map(renderUnitCard).join('');document.getElementById('unit-count').textContent=`${DATA.units.length} unidades · filtro: ${getFilterLabel()}`;updateSummary();}
+function renderSectors(){const s=currentUnit.sectors;document.getElementById('sectors-grid').innerHTML=s.map(renderSectorCard).join('');document.getElementById('sector-title').textContent=`Setores – ${currentUnit.name}`;document.getElementById('sector-count').textContent=`${s.length} setores · filtro: ${getFilterLabel()}`;updateSummary();}
+function renderMachines(){const m=currentSector.machines;document.getElementById('machines-grid').innerHTML=m.map(renderMachineCard).join('');document.getElementById('machine-title').textContent=`Máquinas – ${currentSector.name}`;document.getElementById('machine-count').textContent=`${m.length} máquinas · filtro: ${getFilterLabel()}`;updateSummary();}
 
 function updateSummary(){
   const sc=currentLevel===1?8:currentLevel===2?3:.5;
@@ -832,9 +975,10 @@ function updateSummary(){
   document.getElementById('s-itens').textContent=fmtNum(k.itens);
   document.getElementById('s-ref').textContent=k.ref;
   document.getElementById('s-meta').textContent=fmtNum(m.metaTotal);
-  const sDef=document.getElementById('s-deficit');
-  sDef.textContent=m.deficit===0?'OK':fmtNum(m.deficit);
-  sDef.style.color=m.deficit===0?'var(--green)':'var(--red)';
+  const sd=document.getElementById('s-deficit');
+  sd.textContent=m.deficit===0?'OK':fmtNum(m.deficit);
+  sd.style.color=m.deficit===0?'var(--green)':'var(--red)';
+  document.getElementById('s-fh').textContent=getFilterLabel();
 }
 
 function refresh(){
@@ -845,6 +989,7 @@ function refresh(){
   document.getElementById('lastUpdate').textContent=`Atualizado: ${new Date().toLocaleTimeString('pt-BR')}`;
 }
 
+// ── INIT ──
 setInterval(()=>document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR'),1000);
 document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR');
 renderUnits();
